@@ -40,6 +40,12 @@
   .site p { margin: 0; color: var(--doux); font-size: 14.5px; }
   .fleche { color: var(--accent); font-size: 20px; transition: transform .15s; }
   a.site:hover .fleche { transform: translateX(3px); }
+  .historique { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--trait); }
+  .historique h3 { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--doux); font-weight: 500; margin: 0 0 10px; }
+  .historique ul { gap: 4px; }
+  a.passe { display: flex; gap: 8px; align-items: baseline; color: var(--doux); text-decoration: none; font-size: 14px; padding: 4px 0; }
+  a.passe:hover, a.passe:focus-visible { color: var(--accent); }
+  a.passe .date { font-size: 12px; opacity: .75; }
   footer { margin-top: 44px; color: var(--doux); font-size: 13px; }
   @media (max-width: 480px) {
     main { padding-top: 48px; }
@@ -59,19 +65,9 @@
 
   <!-- Pour ajouter un site : copier un bloc <li> et changer le lien, l'icône, le titre et la description. -->
   <ul>
-    <li><a class="site" href="/florence/">
-      <span class="icone" aria-hidden="true">🇮🇹</span>
-      <span><h2>Florence · octobre 2026</h2><p>Notre voyage : programme jour par jour avec options, réservations, histoires des lieux et adresses.</p></span>
-      <span class="fleche" aria-hidden="true">→</span>
-    </a></li>
     <li><a class="site" href="/cuisine/">
       <span class="icone" aria-hidden="true">🍳</span>
       <span><h2>Carnet de cuisine</h2><p>Mes recettes, en version simple ou grande cuisine, avec liste de courses.</p></span>
-      <span class="fleche" aria-hidden="true">→</span>
-    </a></li>
-    <li><a class="site" href="/campagne-isidoro/">
-      <span class="icone" aria-hidden="true">📜</span>
-      <span><h2>Le Registre d'Isidoro</h2><p>Campagne D&amp;D 3.5 : séances, journal, personnages, lieux et règles.</p></span>
       <span class="fleche" aria-hidden="true">→</span>
     </a></li>
     <li><a class="site" href="/revisions-oenologie/">
@@ -79,7 +75,19 @@
       <span><h2>Révisions Œnologie</h2><p>Révisions pour l'examen d'œnologie CEFOR, cours 1 à 5.</p></span>
       <span class="fleche" aria-hidden="true">→</span>
     </a></li>
+    <li><a class="site" href="/campagne-isidoro/">
+      <span class="icone" aria-hidden="true">📜</span>
+      <span><h2>Le Registre d'Isidoro</h2><p>Campagne D&amp;D 3.5 : séances, journal, personnages, lieux et règles.</p></span>
+      <span class="fleche" aria-hidden="true">→</span>
+    </a></li>
   </ul>
+
+  <section class="historique">
+    <h3>Historique</h3>
+    <ul>
+      <li><a class="passe" href="/florence/"><span aria-hidden="true">🇮🇹</span> Florence · octobre 2026 <span class="date">voyage passé</span></a></li>
+    </ul>
+  </section>
 
   <footer>antotilm.github.io</footer>
 </main>
