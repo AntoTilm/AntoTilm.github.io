@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bruges · 14–15 novembre</title>
+<meta name="description" content="Notre week-end à Bruges : le programme heure par heure, les anecdotes, les restos et les estaminets.">
+<meta name="theme-color" content="#2d5d60">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icone.svg">
+<link rel="preload" href="polices/grenze-gotisch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="polices/alegreya-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face { font-family: "Grenze Gotisch"; font-weight: 600; font-style: normal; font-display: swap; src: url(polices/grenze-gotisch-latin-600-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Alegreya Sans"; font-weight: 400; font-style: normal; font-display: swap; src: url(polices/alegreya-sans-latin-400-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Alegreya Sans"; font-weight: 400; font-style: italic; font-display: swap; src: url(polices/alegreya-sans-latin-400-italic.woff2) format("woff2"); }
+  @font-face { font-family: "Alegreya Sans"; font-weight: 500; font-style: normal; font-display: swap; src: url(polices/alegreya-sans-latin-500-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Alegreya Sans"; font-weight: 700; font-style: normal; font-display: swap; src: url(polices/alegreya-sans-latin-700-normal.woff2) format("woff2"); }
+
+  /* Pierre calcaire, encre ardoise, eau des reien, brique, dorure. */
+  :root {
+    --pierre: #eef1ee; --voile: #e1e8e4; --encre: #1c2b30; --brume: #59696d; --filet: #d2dad6;
+    --reie: #2d5d60; --brique: #8f3a2c; --or: #b98a2e; --or-texte: #85621a;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --pierre: #0f1c22; --voile: #16262d; --encre: #e4ebe8; --brume: #98a9ac; --filet: #26383e;
+      --reie: #86c0bd; --brique: #e8907a; --or: #e5b65a; --or-texte: #e5b65a;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-padding-top: 4rem; }
+  body {
+    margin: 0; background: var(--pierre); color: var(--encre);
+    font: 400 17px/1.5 "Alegreya Sans", system-ui, sans-serif;
+    font-variant-numeric: lining-nums;
+  }
+  a { color: var(--reie); text-underline-offset: .18em; }
+  :focus-visible { outline: 2px solid var(--or); outline-offset: 3px; border-radius: 4px; }
+  .colonne { max-width: 36rem; margin: 0 auto; padding: 0 1.25rem; }
+  [hidden] { display: none !important; }
+
+  /* ---------- Frontispice : la ville, avec le ciel de l'heure réelle ---------- */
+  .frontispice {
+    --c1: #8fb6cf; --c2: #bad3df; --c3: #e1eaec; --ville: #934739; --fen: #622c23; --eau: #3d6a6b; --astre: #f7d684; --titre: #1c2b30;
+    position: relative; overflow: hidden; background: var(--c3);
+  }
+  .frontispice.phase-aube  { --c1: #2e4574; --c2: #8b8db0; --c3: #e8b69b; --ville: #4c3534; --fen: #3a2a2a; --eau: #2b4459; --astre: #ffcf8a; --titre: #f2f4f1; }
+  .frontispice.phase-doree { --c1: #7699b8; --c2: #e5bb8b; --c3: #f1a56b; --ville: #7c3a2d; --fen: #4d2018; --eau: #4b6767; --astre: #ffb560; --titre: #1c2b30; }
+  .frontispice.phase-bleue { --c1: #1d325a; --c2: #48608d; --c3: #c59487; --ville: #292b37; --fen: #2c2e3a; --eau: #213549; --astre: transparent; --titre: #f2f4f1; }
+  .frontispice.phase-nuit  { --c1: #09131e; --c2: #112338; --c3: #1b3147; --ville: #131d26; --fen: #17212a; --eau: #0e1c29; --astre: transparent; --titre: #f2f4f1; }
+  .frontispice svg { display: block; width: 100%; height: auto; max-height: 30rem; }
+  .frontispice .c1 { stop-color: var(--c1); } .frontispice .c2 { stop-color: var(--c2); } .frontispice .c3 { stop-color: var(--c3); }
+  .frontispice stop, .ville-corps path, .f, .eau, .disque, .halo, .titre, .etoiles circle { transition: stop-color 1.8s ease, fill 1.8s ease, color 1.8s ease, opacity 1.8s ease; }
+  .ville-corps path { fill: var(--ville); }
+  .f { fill: var(--fen); }
+  .phase-aube .f.on, .phase-bleue .f.on, .phase-nuit .f.on { fill: #f4c66e; }
+  .eau { fill: var(--eau); }
+  .reflet { opacity: .3; }
+  .rides { stroke: #fff; stroke-opacity: .28; stroke-width: 1; stroke-linecap: round; fill: none; }
+  .cygne-corps { fill: #f6f4ee; } .cygne-cou { fill: none; stroke: #f6f4ee; stroke-width: 1.6; stroke-linecap: round; }
+  .phase-nuit .cygne-corps, .phase-bleue .cygne-corps { fill: #c9cfd3; } .phase-nuit .cygne-cou, .phase-bleue .cygne-cou { stroke: #c9cfd3; }
+  .quai { stroke: #000; stroke-opacity: .18; stroke-width: 1.5; }
+  .etoiles circle { fill: #fff; opacity: 0; }
+  .phase-nuit .etoiles circle { opacity: .85; }
+  .astre { transition: transform 2.2s cubic-bezier(.2, .7, .2, 1), opacity 1.2s ease; }
+  .disque { fill: var(--astre); } .halo { fill: var(--astre); opacity: .22; }
+  .titre { position: absolute; inset: 0 0 auto 0; color: var(--titre); pointer-events: none; }
+  .titre .colonne { padding-top: clamp(.9rem, 4vw, 2rem); }
+  .titre h1 {
+    font: 600 clamp(4.3rem, 21vw, 8rem)/.8 "Grenze Gotisch", "Alegreya Sans", serif;
+    margin: 0; letter-spacing: .004em;
+  }
+  .titre p { margin: .5rem 0 0; font-weight: 500; font-size: 1rem; }
+
+  /* ---------- Maintenant ---------- */
+  .maintenant { background: var(--voile); }
+  .maintenant .colonne { padding-top: 1rem; padding-bottom: 1.05rem; }
+  .mt { border-left: 3px solid var(--or); padding-left: .9rem; }
+  .mt p { margin: 0; }
+  .mt .mt-quand { color: var(--brume); font-size: .92rem; }
+  .mt .mt-titre { font-weight: 700; font-size: 1.12rem; line-height: 1.3; margin: .1rem 0 .2rem; }
+  .mt .mt-heure { color: var(--brique); }
+  .mt .mt-ligne { font-size: 1rem; }
+  .mt .mt-soleil { color: var(--brume); font-size: .95rem; margin-top: .25rem; }
+  .mt a { display: inline-block; margin-top: .45rem; font-weight: 500; }
+
+  /* ---------- Onglets ---------- */
+  .onglets {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--pierre) 93%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--filet);
+  }
+  .onglets .colonne { display: flex; gap: 1.35rem; overflow-x: auto; scrollbar-width: none; }
+  .onglets .colonne::-webkit-scrollbar { display: none; }
+  .onglets a {
+    flex: none; padding: .85rem 0 .7rem; color: var(--brume); text-decoration: none;
+    font-weight: 500; font-size: 1.02rem; border-bottom: 2px solid transparent;
+  }
+  .onglets a[aria-current="page"] { color: var(--encre); font-weight: 700; border-bottom-color: var(--encre); }
+  @media (max-width: 400px) { .onglets .colonne { gap: 1rem; } .onglets a { font-size: .97rem; } }
+
+  /* ---------- Pages ---------- */
+  main { padding-bottom: 1rem; }
+  .page-tete { padding-top: 1.7rem; }
+  .gothique { font: 600 3.1rem/.95 "Grenze Gotisch", "Alegreya Sans", serif; margin: 0 0 .45rem; letter-spacing: .004em; }
+  .sous-titre { font-weight: 700; font-size: 1.2rem; line-height: 1.3; margin: 0 0 .55rem; }
+  .intro { margin: 0 0 .55rem; }
+  .meteo-jour { color: var(--brume); margin: 0 0 1rem; }
+  h3.groupe { font-size: 1.15rem; margin: 2.1rem 0 .3rem; padding-bottom: .4rem; border-bottom: 1px solid var(--filet); }
+  .note { color: var(--brume); }
+
+  .bouton {
+    display: inline-flex; align-items: center; gap: .4rem; min-height: 2.5rem;
+    padding: .4rem .75rem; border-radius: 6px; cursor: pointer;
+    font: 500 .97rem/1.2 "Alegreya Sans", system-ui, sans-serif; text-decoration: none;
+    color: var(--reie); background: transparent; border: 1.5px solid color-mix(in srgb, var(--reie) 55%, transparent);
+  }
+  .bouton.plein { background: var(--reie); border-color: var(--reie); color: var(--pierre); }
+  .bouton svg { width: 1em; height: 1em; flex: none; }
+  .actions { display: flex; flex-wrap: wrap; gap: .5rem; margin: .7rem 0 .15rem; }
+
+  /* La frise : les heures en rubrique, reliées par le fil de l'eau. */
+  .frise { list-style: none; margin: 1.7rem 0 0; padding: 0; position: relative; }
+  .frise::before {
+    content: ""; position: absolute; left: 4.45rem; top: .6rem; bottom: 2rem; width: 2px;
+    background: color-mix(in srgb, var(--reie) 40%, transparent);
+  }
+  .etape { display: grid; grid-template-columns: 3.6rem 1fr; column-gap: 1.7rem; padding-bottom: 1.9rem; position: relative; }
+  .etape::before {
+    content: ""; position: absolute; left: calc(4.45rem - 6px); top: .42rem; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--pierre); box-shadow: inset 0 0 0 2px var(--reie);
+  }
+  .etape.en-cours::before { background: var(--or); box-shadow: 0 0 0 5px color-mix(in srgb, var(--or) 28%, transparent); }
+  .heure {
+    margin: 0; text-align: right; color: var(--brique); font-weight: 700; font-size: .98rem;
+    font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; line-height: 1.5;
+  }
+  .heure small { display: block; color: var(--or-texte); font-weight: 500; font-size: .8rem; white-space: normal; line-height: 1.2; margin-top: .15rem; }
+  .etape h3 { margin: 0 0 .3rem; font-size: 1.2rem; line-height: 1.28; }
+  .etape p { margin: 0 0 .5rem; }
+  .rubrique { color: var(--brique); font-weight: 700; font-size: .93rem; }
+  .option { color: var(--brume); }
+
+  details.histoire { margin: .75rem 0 0; padding-left: .9rem; border-left: 2px solid var(--or); }
+  details.histoire summary { cursor: pointer; list-style: none; font-weight: 700; display: inline-flex; gap: .45rem; align-items: baseline; padding: .15rem 0; }
+  details.histoire summary::-webkit-details-marker { display: none; }
+  details.histoire summary::before { content: "+"; color: var(--or-texte); font-weight: 700; width: .7em; }
+  details.histoire[open] summary::before { content: "−"; }
+  details.histoire p { margin: .35rem 0 .5rem; }
+  .ecouter { background: none; border: 0; padding: .25rem 0; color: var(--reie); font: 500 .95rem/1.2 "Alegreya Sans", sans-serif; cursor: pointer; display: inline-flex; gap: .35rem; align-items: center; }
+  .ecouter svg { width: 1.05em; height: 1.05em; }
+
+  .encart { margin: .4rem 0 0; padding: 1rem 1.1rem; background: var(--voile); border-radius: 8px; }
+  .encart h3 { margin: 0 0 .35rem; font-size: 1.1rem; }
+  .encart p { margin: 0 0 .5rem; }
+  .encart ul { list-style: none; margin: .4rem 0 0; padding: 0; }
+  .encart li { padding: .55rem 0; border-top: 1px solid var(--filet); }
+  .encart li b { display: block; }
+
+  /* Adresses */
+  .liste { list-style: none; margin: 0; padding: 0; }
+  .liste > li { padding: .9rem 0; border-bottom: 1px solid var(--filet); }
+  .liste h4 { margin: 0; font-size: 1.1rem; line-height: 1.3; }
+  .liste p { margin: .2rem 0 0; }
+  .adr { color: var(--brume); font-size: .95rem; }
+  .choix { color: var(--or-texte); font-weight: 700; font-size: .92rem; }
+  .choix::before { content: "★ "; color: var(--or); }
+  .horaires { color: var(--brume); font-size: .95rem; }
+  .verdict { font-weight: 700; font-size: .93rem; }
+  .verdict::before { content: ""; display: inline-block; width: .55em; height: .55em; margin-right: .45em; border-radius: 2px; background: currentColor; vertical-align: .06em; }
+  .v-oui { color: var(--reie); } .v-verre { color: var(--or-texte); } .v-depannage, .v-inutile { color: var(--brume); } .v-non { color: var(--brique); }
+
+  /* Infos */
+  .coches { list-style: none; margin: 0; padding: 0; }
+  .coches label { display: flex; gap: .75rem; align-items: flex-start; padding: .6rem 0; border-bottom: 1px solid var(--filet); cursor: pointer; }
+  .coches input { width: 1.3rem; height: 1.3rem; margin: .12rem 0 0; flex: none; accent-color: var(--reie); }
+  .coches input:checked + span { color: var(--brume); text-decoration: line-through; text-decoration-thickness: 1px; }
+  dl.infos { margin: 0; }
+  dl.infos dt { font-weight: 700; margin-top: .9rem; }
+  dl.infos dd { margin: .1rem 0 0; }
+  .soleil { width: 100%; border-collapse: collapse; margin: .4rem 0 .2rem; font-variant-numeric: lining-nums tabular-nums; }
+  .soleil th, .soleil td { text-align: left; padding: .5rem .4rem .5rem 0; border-bottom: 1px solid var(--filet); vertical-align: top; }
+  .soleil th { font-weight: 700; }
+  .soleil td.meteo { color: var(--brume); }
+  .sources { padding-left: 1.1rem; margin: .5rem 0 0; }
+  .sources li { margin: .3rem 0; }
+
+  footer { color: var(--brume); font-size: .93rem; border-top: 1px solid var(--filet); margin-top: 2.5rem; }
+  footer .colonne { padding-top: 1.1rem; padding-bottom: calc(2.5rem + env(safe-area-inset-bottom)); }
+  footer p { margin: 0 0 .4rem; }
+
+  @media (min-width: 46rem) {
+    .gothique { font-size: 3.6rem; }
+    /* Grand écran : le dessin reste à taille humaine, le ciel et l'eau continuent sur les côtés. */
+    .frontispice { background: linear-gradient(to bottom, var(--c1) 0%, var(--c2) 45%, var(--c3) 72.5%, var(--eau) 72.5%, var(--eau) 100%); }
+    .frontispice svg { max-width: 46rem; max-height: none; margin: 0 auto; -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .frontispice *, .titre { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<header class="frontispice phase-jour" id="haut">
+  <svg viewBox="0 0 400 262" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Bruges dessinée : pignons à gradins, Belfort et Notre-Dame au bord d'un canal, sous le ciel de l'heure qu'il est">
+    <defs>
+      <linearGradient id="ciel" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" class="c1"/><stop offset=".62" class="c2"/><stop offset="1" class="c3"/>
+      </linearGradient>
+      <clipPath id="clip-eau"><rect x="0" y="190" width="400" height="72"/></clipPath>
+    </defs>
+    <rect width="400" height="190" fill="url(#ciel)"/>
+    <g class="etoiles">
+      <circle cx="232" cy="18" r="1.1"/><circle cx="268" cy="44" r=".8"/><circle cx="318" cy="22" r="1.2"/><circle cx="352" cy="58" r=".8"/>
+      <circle cx="380" cy="30" r="1"/><circle cx="212" cy="62" r=".7"/><circle cx="246" cy="84" r=".9"/><circle cx="336" cy="92" r=".7"/>
+      <circle cx="122" cy="96" r=".8"/><circle cx="88" cy="118" r=".7"/>
+    </g>
+    <g class="astre" id="astre" style="transform: translate(200px, 172px); opacity: 0"><circle class="halo" r="22"/><circle class="disque" r="9"/></g>
+    <g id="batiments" transform="translate(0 22)">
+      <g class="ville-corps">
+        <path d="M0 168 L0 134 L0 126.5 L3.2 126.5 L3.2 119 L6.5 119 L6.5 111.5 L9.8 111.5 L9.8 104 L13 104 L19 104 L22.2 104 L22.2 111.5 L25.5 111.5 L25.5 119 L28.8 119 L28.8 126.5 L32 126.5 L32 134 L32 168 Z"/>
+        <path d="M32 168 L32 128 L32 118.7 L35.5 118.7 L35.5 109.3 L39 109.3 L39 100 L42.5 100 L47.5 100 L51 100 L51 109.3 L54.5 109.3 L54.5 118.7 L58 118.7 L58 128 L58 168 Z"/>
+        <path d="M80 168 L80 132 L80 124.5 L83 124.5 L83 117 L86 117 L86 109.5 L89 109.5 L89 102 L92 102 L98 102 L101 102 L101 109.5 L104 109.5 L104 117 L107 117 L107 124.5 L110 124.5 L110 132 L110 168 Z"/>
+        <path d="M110 168 L110 126 L110 117.3 L113.5 117.3 L113.5 108.7 L117 108.7 L117 100 L120.5 100 L125.5 100 L129 100 L129 108.7 L132.5 108.7 L132.5 117.3 L136 117.3 L136 126 L136 168 Z"/>
+        <path d="M136 168 L136 134 L136 127 L139.2 127 L139.2 120 L142.5 120 L142.5 113 L145.8 113 L145.8 106 L149 106 L155 106 L158.2 106 L158.2 113 L161.5 113 L161.5 120 L164.8 120 L164.8 127 L168 127 L168 134 L168 168 Z"/>
+        <path d="M168 168 L168 128 L168 118.7 L171.7 118.7 L171.7 109.3 L175.3 109.3 L175.3 100 L179 100 L185 100 L188.7 100 L188.7 109.3 L192.3 109.3 L192.3 118.7 L196 118.7 L196 128 L196 168 Z"/>
+        <path d="M196 168 L196 132 L196 125 L199 125 L199 118 L202 118 L202 111 L205 111 L205 104 L208 104 L214 104 L217 104 L217 111 L220 111 L220 118 L223 118 L223 125 L226 125 L226 132 L226 168 Z"/>
+        <path d="M322 168 L322 136 L322 128 L325 128 L325 120 L328 120 L328 112 L331 112 L335 112 L338 112 L338 120 L341 120 L341 128 L344 128 L344 136 L344 168 Z"/>
+        <path d="M388 168 L388 130 L388 123 L390.6 123 L390.6 116 L393.2 116 L393.2 109 L395.9 109 L395.9 102 L398.5 102 L403.5 102 L406.1 102 L406.1 109 L408.8 109 L408.8 116 L411.4 116 L411.4 123 L414 123 L414 130 L414 168 Z"/>
+        <path d="M58 168 L58 138 L69 124 L80 138 L80 168 Z"/>
+        <path d="M226 168 L226 128 L226 124 L230 124 L230 128 L234 128 L234 124 L238 124 L238 128 L242 128 L242 124 L246 124 L246 128 L250 128 L250 124 L254 124 L254 128 L258 128 L258 124 L262 124 L262 128 L266 128 L266 124 L270 124 L270 128 L274 128 L274 124 L278 124 L278 128 L282 128 L282 124 L286 124 L286 128 L290 128 L290 124 L294 124 L294 128 L298 128 L298 124 L302 124 L302 128 L306 128 L306 124 L310 124 L310 128 L314 128 L314 124 L318 124 L318 128 L322 128 L322 128 L322 168 Z"/>
+        <path d="M262 168 L262 58 L259 58 L260.5 48 L262 58 L264 58 L264 54 L288 54 L288 58 L290 58 L291.5 48 L293 58 L290 58 L290 168 Z M266 54 L266 30 L286 30 L286 54 Z M269 30 L271 22 L281 22 L283 30 Z M274 22 L276 10 L278 22 Z"/>
+        <path d="M344 168 L344 54 L364 54 L364 168 Z M345 54 L354 16 L363 54 Z M364 168 L364 106 L388 124 L388 168 Z"/>
+      </g>
+      <g class="fenetres">
+        <rect class="f" x="6.4" y="142" width="3.2" height="5.5"/>
+        <rect class="f" x="14.4" y="142" width="3.2" height="5.5"/>
+        <rect class="f" x="22.4" y="142" width="3.2" height="5.5"/>
+        <rect class="f" x="6.4" y="154" width="3.2" height="5.5"/>
+        <rect class="f" x="14.4" y="154" width="3.2" height="5.5"/>
+        <rect class="f" x="22.4" y="154" width="3.2" height="5.5"/>
+        <rect class="f on" x="14.4" y="122" width="3.2" height="5"/>
+        <rect class="f" x="39.1" y="136" width="3.2" height="5.5"/>
+        <rect class="f" x="47.7" y="136" width="3.2" height="5.5"/>
+        <rect class="f" x="39.1" y="148" width="3.2" height="5.5"/>
+        <rect class="f on" x="47.7" y="148" width="3.2" height="5.5"/>
+        <rect class="f on" x="39.1" y="160" width="3.2" height="5.5"/>
+        <rect class="f on" x="47.7" y="160" width="3.2" height="5.5"/>
+        <rect class="f" x="43.4" y="116" width="3.2" height="5"/>
+        <rect class="f" x="85.9" y="140" width="3.2" height="5.5"/>
+        <rect class="f on" x="93.4" y="140" width="3.2" height="5.5"/>
+        <rect class="f" x="100.9" y="140" width="3.2" height="5.5"/>
+        <rect class="f" x="85.9" y="152" width="3.2" height="5.5"/>
+        <rect class="f" x="93.4" y="152" width="3.2" height="5.5"/>
+        <rect class="f" x="100.9" y="152" width="3.2" height="5.5"/>
+        <rect class="f on" x="93.4" y="120" width="3.2" height="5"/>
+        <rect class="f on" x="117.1" y="134" width="3.2" height="5.5"/>
+        <rect class="f" x="125.7" y="134" width="3.2" height="5.5"/>
+        <rect class="f on" x="117.1" y="146" width="3.2" height="5.5"/>
+        <rect class="f on" x="125.7" y="146" width="3.2" height="5.5"/>
+        <rect class="f on" x="117.1" y="158" width="3.2" height="5.5"/>
+        <rect class="f on" x="125.7" y="158" width="3.2" height="5.5"/>
+        <rect class="f on" x="121.4" y="114" width="3.2" height="5"/>
+        <rect class="f on" x="142.4" y="142" width="3.2" height="5.5"/>
+        <rect class="f" x="150.4" y="142" width="3.2" height="5.5"/>
+        <rect class="f" x="158.4" y="142" width="3.2" height="5.5"/>
+        <rect class="f" x="142.4" y="154" width="3.2" height="5.5"/>
+        <rect class="f" x="150.4" y="154" width="3.2" height="5.5"/>
+        <rect class="f" x="158.4" y="154" width="3.2" height="5.5"/>
+        <rect class="f on" x="150.4" y="122" width="3.2" height="5"/>
+        <rect class="f on" x="175.7" y="136" width="3.2" height="5.5"/>
+        <rect class="f" x="185.1" y="136" width="3.2" height="5.5"/>
+        <rect class="f" x="175.7" y="148" width="3.2" height="5.5"/>
+        <rect class="f" x="185.1" y="148" width="3.2" height="5.5"/>
+        <rect class="f" x="175.7" y="160" width="3.2" height="5.5"/>
+        <rect class="f on" x="185.1" y="160" width="3.2" height="5.5"/>
+        <rect class="f on" x="180.4" y="116" width="3.2" height="5"/>
+        <rect class="f on" x="201.9" y="140" width="3.2" height="5.5"/>
+        <rect class="f on" x="209.4" y="140" width="3.2" height="5.5"/>
+        <rect class="f" x="216.9" y="140" width="3.2" height="5.5"/>
+        <rect class="f on" x="201.9" y="152" width="3.2" height="5.5"/>
+        <rect class="f" x="209.4" y="152" width="3.2" height="5.5"/>
+        <rect class="f on" x="216.9" y="152" width="3.2" height="5.5"/>
+        <rect class="f" x="209.4" y="120" width="3.2" height="5"/>
+        <rect class="f" x="327.7" y="144" width="3.2" height="5.5"/>
+        <rect class="f on" x="335.1" y="144" width="3.2" height="5.5"/>
+        <rect class="f on" x="327.7" y="156" width="3.2" height="5.5"/>
+        <rect class="f" x="335.1" y="156" width="3.2" height="5.5"/>
+        <rect class="f on" x="331.4" y="124" width="3.2" height="5"/>
+        <rect class="f" x="395.1" y="138" width="3.2" height="5.5"/>
+        <rect class="f on" x="403.7" y="138" width="3.2" height="5.5"/>
+        <rect class="f on" x="395.1" y="150" width="3.2" height="5.5"/>
+        <rect class="f" x="403.7" y="150" width="3.2" height="5.5"/>
+        <rect class="f" x="399.4" y="118" width="3.2" height="5"/>
+        <rect class="f on" x="63.7" y="148" width="3.2" height="5.5"/>
+        <rect class="f on" x="71.1" y="148" width="3.2" height="5.5"/>
+        <rect class="f on" x="63.7" y="160" width="3.2" height="5.5"/>
+        <rect class="f" x="71.1" y="160" width="3.2" height="5.5"/>
+        <rect class="f" x="232" y="140" width="4" height="7"/>
+        <rect class="f on" x="247" y="140" width="4" height="7"/>
+        <rect class="f" x="262" y="140" width="4" height="7"/>
+        <rect class="f" x="277" y="140" width="4" height="7"/>
+        <rect class="f on" x="292" y="140" width="4" height="7"/>
+        <rect class="f" x="307" y="140" width="4" height="7"/>
+        <rect class="f on" x="273" y="36" width="6" height="10"/>
+        <rect class="f" x="272" y="70" width="8" height="12"/>
+        <rect class="f on" x="352" y="80" width="4" height="9"/>
+      </g>
+    </g>
+    <rect class="eau" x="0" y="190" width="400" height="72"/>
+    <g id="reflet" clip-path="url(#clip-eau)"></g>
+    <path class="rides" d="M26 206h64M138 214h92M262 209h86M52 229h118M214 238h104M300 224h54"/>
+    <g class="cygne" transform="translate(318 222)">
+      <path class="cygne-corps" d="M0 0c3 4 15 5 21 0c-4 1-8-1-10-3c-2-2-6-2-8 0z"/>
+      <path class="cygne-cou" d="M3.5-2.5c-3-4-2-9.5 1.5-9.5c2 0 2.5 2 1.5 3.2"/>
+    </g>
+    <line class="quai" x1="0" y1="190.5" x2="400" y2="190.5"/>
+  </svg>
+  <div class="titre"><div class="colonne">
+    <h1>Bruges</h1>
+    <p>14 et 15 novembre 2026</p>
+  </div></div>
+</header>
+
+<section class="maintenant" aria-live="polite"><div class="colonne"><div class="mt" id="maintenant"></div></div></section>
+
+<nav class="onglets" id="onglets" aria-label="Sections"><div class="colonne">
+  <a href="#samedi" data-page="samedi">Samedi</a>
+  <a href="#dimanche" data-page="dimanche">Dimanche</a>
+  <a href="#manger" data-page="manger">Restos &amp; bars</a>
+  <a href="#infos" data-page="infos">Infos</a>
+</div></nav>
+
+<main id="contenu"><noscript><div class="colonne"><p>Ce carnet a besoin de JavaScript pour s'afficher.</p></div></noscript></main>
+
+<footer><div class="colonne">
+  <p id="maj"></p>
+  <p><a href="/">Tous mes sites</a></p>
+</div></footer>
+
+<script src="donnees.js"></script>
+<script>
+(function () {
+  "use strict";
+  const B = window.BRUGES;
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+  const esc = (t) => String(t ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  /* Typographie française : espaces insécables avant : ; ! ? et dans « », entre nombre et unité, apostrophe courbe. */
+  const typo = (t) => String(t)
+    .replace(/« /g, "« ").replace(/ »/g, " »")
+    .replace(/ ([:;!?])/g, " $1")
+    .replace(/(\d) (€|%|°C|h|km|m|mm|min)(?=[\s.,;:)]|$)/g, "$1 $2")
+    .replace(/(\d) h (\d)/g, "$1 h $2")
+    .replace(/'/g, "’");
+  const T = (t) => typo(esc(t));
+  const enc = encodeURIComponent;
+  const aPied = (q) => "https://www.google.com/maps/dir/?api=1&destination=" + enc(q) + "&travelmode=walking";
+  const voir = (q) => "https://www.google.com/maps/search/?api=1&query=" + enc(q);
+  const parcoursMaps = (p) => "https://www.google.com/maps/dir/?api=1&destination=" + enc(p.arrivee) + "&waypoints=" + p.etapes.map(enc).join("%7C") + "&travelmode=walking";
+  const ICONE_PIN = '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.2a4.8 4.8 0 0 0-4.8 4.8c0 3.6 4.8 8.8 4.8 8.8s4.8-5.2 4.8-8.8A4.8 4.8 0 0 0 8 1.2Zm0 6.6A1.8 1.8 0 1 1 8 4.2a1.8 1.8 0 0 1 0 3.6Z"/></svg>';
+  const ICONE_SON = '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M2 6h2.5L8 3v10L4.5 10H2z"/><path d="M10.5 5.5a3.5 3.5 0 0 1 0 5M12.3 3.6a6 6 0 0 1 0 8.8" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+
+  /* ---------- L'heure : ?t=2026-11-14T16:30 permet de simuler un moment ---------- */
+  function maintenantDate() {
+    const t = new URLSearchParams(location.search).get("t");
+    const d = t ? new Date(t) : new Date();
+    return isNaN(d) ? new Date() : d;
+  }
+  const isoDe = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  const minutes = (h) => { const m = String(h || "").match(/^(\d{1,2}):(\d{2})$/); return m ? +m[1] * 60 + +m[2] : null; };
+  const fmtH = (h) => { const m = minutes(h); if (m === null) return ""; const hh = Math.floor(m / 60), mm = m % 60; return hh + " h" + (mm ? " " + String(mm).padStart(2, "0") : ""); };
+  const fmtDuree = (n) => n < 60 ? n + " min" : Math.floor(n / 60) + " h" + (n % 60 ? " " + String(n % 60).padStart(2, "0") : "");
+
+  /* Lever et coucher du soleil (formules de la NOAA), pour les jours hors programme. */
+  function soleilCalcule(d, lat = 51.2093, lon = 3.2247) {
+    const r = Math.PI / 180;
+    const n = Math.floor((new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12) - new Date(d.getFullYear(), 0, 0)) / 864e5);
+    const g = 2 * Math.PI / 365 * (n - 1);
+    const eq = 229.18 * (0.000075 + 0.001868 * Math.cos(g) - 0.032077 * Math.sin(g) - 0.014615 * Math.cos(2 * g) - 0.040849 * Math.sin(2 * g));
+    const dec = 0.006918 - 0.399912 * Math.cos(g) + 0.070257 * Math.sin(g) - 0.006758 * Math.cos(2 * g) + 0.000907 * Math.sin(2 * g) - 0.002697 * Math.cos(3 * g) + 0.00148 * Math.sin(3 * g);
+    const ha = (z) => Math.acos(Math.max(-1, Math.min(1, Math.cos(z * r) / (Math.cos(lat * r) * Math.cos(dec)) - Math.tan(lat * r) * Math.tan(dec)))) / r;
+    const midi = 720 - 4 * lon - eq - new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12).getTimezoneOffset();
+    return { lever: midi - 4 * ha(90.833), coucher: midi + 4 * ha(90.833), nuit: midi + 4 * ha(96), hauteur: 90 - lat + dec / r };
+  }
+  function soleilDu(d) {
+    const calc = soleilCalcule(d);
+    const j = B.jours.find((x) => x.date === isoDe(d));
+    if (j && j.soleil) return { lever: minutes(j.soleil.lever), coucher: minutes(j.soleil.coucher), nuit: minutes(j.soleil.nuit), hauteur: calc.hauteur };
+    return calc;
+  }
+
+  /* ---------- Le ciel du frontispice ---------- */
+  const entete = $("#haut");
+  const astre = $("#astre");
+  (function refleter() {
+    const g = $("#batiments").cloneNode(true);
+    g.removeAttribute("id");
+    g.setAttribute("transform", "matrix(1 0 0 -0.62 0 307.8) translate(0 22)");
+    g.setAttribute("class", "reflet");
+    $("#reflet").appendChild(g);
+  })();
+  function majCiel(d) {
+    const s = soleilDu(d);
+    const t = d.getHours() * 60 + d.getMinutes();
+    let phase = "jour";
+    if (t < s.lever - 37 || t >= s.nuit + 25) phase = "nuit";
+    else if (t < s.lever + 25) phase = "aube";
+    else if (t >= s.coucher) phase = "bleue";
+    else if (t >= s.coucher - 50) phase = "doree";
+    entete.className = "frontispice phase-" + phase;
+    const p = (t - s.lever) / (s.coucher - s.lever);
+    if (p > -0.03 && p < 1.03) {
+      const A = 110 * Math.max(8, s.hauteur) / 62;
+      const x = 36 + p * 328, y = 132 - Math.sin(Math.max(0, Math.min(1, p)) * Math.PI) * A;
+      astre.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+      astre.style.opacity = 1;
+    } else {
+      astre.style.opacity = 0;
+    }
+  }
+
+  /* ---------- Les étapes et l'étape en cours ---------- */
+  function debuts(j) {
+    let prec = 0;
+    return j.etapes.map((e, i) => { const m = minutes(e.h) ?? minutes(e.vers); const v = m !== null ? m : (i === 0 ? 0 : prec + 1); prec = v; return v; });
+  }
+  function etapeEnCours(j, d) {
+    if (!j || j.date !== isoDe(d)) return -1;
+    const t = d.getHours() * 60 + d.getMinutes();
+    let idx = -1;
+    debuts(j).forEach((v, i) => { if (v <= t) idx = i; });
+    return idx;
+  }
+  const memo = {
+    lire(k, def) { try { const v = localStorage.getItem("bruges:" + k); return v === null ? def : JSON.parse(v); } catch (e) { return def; } },
+    ecrire(k, v) { try { localStorage.setItem("bruges:" + k, JSON.stringify(v)); } catch (e) { /* pas de mémoire : tant pis */ } }
+  };
+
+  /* ---------- Rendu des pages ---------- */
+  function boutonsEtape(e) {
+    const b = [];
+    (e.liens || []).forEach((l) => b.push(`<a class="bouton plein" href="${esc(l.url)}" target="_blank" rel="noopener">${T(l.texte)}</a>`));
+    if (e.maps) b.push(`<a class="bouton" href="${e.voir ? voir(e.maps) : aPied(e.maps)}" target="_blank" rel="noopener">${ICONE_PIN}${T(e.lienMaps || "Y aller à pied")}</a>`);
+    if (e.voirAdresses) b.push(`<a class="bouton" href="#manger">Comparer nos adresses</a>`);
+    return b.length ? `<div class="actions">${b.join("")}</div>` : "";
+  }
+  function histoire(texte) {
+    if (!texte) return "";
+    return `<details class="histoire"><summary>L’histoire</summary><p>${T(texte)}</p><button class="ecouter" type="button" data-texte="${esc(texte)}" hidden>${ICONE_SON}<span>Écouter</span></button></details>`;
+  }
+  function pageJour(j) {
+    const etapes = j.etapes.map((e, i) => `
+      <li class="etape" id="${j.id}-${i}">
+        <p class="heure">${e.h ? fmtH(e.h) : T(e.quand || "")}<small class="ici" hidden>en ce moment</small></p>
+        <div>
+          <h3>${T(e.titre)}</h3>
+          ${e.resa ? '<p class="rubrique">À réserver</p>' : ""}
+          <p>${T(e.texte)}</p>
+          ${e.option ? `<p class="option">Option : ${T(e.option)}</p>` : ""}
+          ${boutonsEtape(e)}
+          ${histoire(e.histoire)}
+        </div>
+      </li>`).join("");
+    const a = j.apres;
+    const apres = a ? `<aside class="encart"><h3>${T(a.titre)}</h3><p>${T(a.texte)}</p>
+        ${a.lien ? `<div class="actions"><a class="bouton" href="${esc(a.lien.url)}" target="_blank" rel="noopener">${T(a.lien.texte)}</a></div>` : ""}
+        ${a.liste ? `<ul>${a.liste.map((x) => `<li><b>${T(x.titre)}</b>${T(x.texte)}${x.maps ? `<div class="actions"><a class="bouton" href="${aPied(x.maps)}" target="_blank" rel="noopener">${ICONE_PIN}Y aller à pied</a></div>` : ""}</li>`).join("")}</ul>` : ""}
+      </aside>` : "";
+    return `<section class="page" id="p-${j.id}" data-page="${j.id}"><div class="colonne">
+      <header class="page-tete">
+        <h2 class="gothique">${T(j.nom)}</h2>
+        <p class="sous-titre">${T(j.titre)}</p>
+        <p class="intro">${T(j.intro)}</p>
+        <p class="meteo-jour">${T(j.meteo)}</p>
+        ${j.parcours ? `<a class="bouton" href="${parcoursMaps(j.parcours)}" target="_blank" rel="noopener">${ICONE_PIN}${T(j.parcours.texte)}</a>` : ""}
+      </header>
+      <ol class="frise">${etapes}</ol>
+      ${apres}
+    </div></section>`;
+  }
+  function pageManger() {
+    const moments = [...new Set(B.adresses.map((x) => x.moment))];
+    const groupes = moments.map((m) => `<h3 class="groupe">${T(m)}</h3><ul class="liste">${B.adresses.filter((x) => x.moment === m).map((x) => `
+        <li>
+          ${x.choix ? '<p class="choix">Notre choix</p>' : ""}
+          <h4>${T(x.nom)}</h4>
+          <p class="adr">${T(x.adresse)}</p>
+          <p>${T(x.texte)}</p>
+          <p class="horaires">${T(x.horaires)}</p>
+          <div class="actions"><a class="bouton" href="${aPied(x.nom + ", " + x.adresse + ", 8000 Brugge")}" target="_blank" rel="noopener">${ICONE_PIN}Y aller à pied</a>${x.lien ? `<a class="bouton plein" href="${esc(x.lien.url)}" target="_blank" rel="noopener">${T(x.lien.texte)}</a>` : ""}</div>
+        </li>`).join("")}</ul>`).join("");
+    const hote = B.hote.map((x) => `
+        <li>
+          <p class="verdict v-${esc(x.verdict)}">${T(x.libelle)}</p>
+          <h4>${T(x.nom)}</h4>
+          <p class="adr">${T(x.adresse)}</p>
+          <p>${T(x.texte)}</p>
+        </li>`).join("");
+    return `<section class="page" id="p-manger" data-page="manger"><div class="colonne">
+      <header class="page-tete">
+        <h2 class="gothique">Manger &amp; boire</h2>
+        <p class="intro">${T("Simple, convivial et pas cher : nos adresses par moment, puis notre avis sur la liste de notre hôte.")}</p>
+      </header>
+      ${groupes}
+      <h3 class="groupe">La liste de notre hôte</h3>
+      <p class="note">${T("Il faut souvent réserver, surtout le samedi soir.")}</p>
+      <ul class="liste">${hote}</ul>
+      <p class="note" style="margin-top:1rem">${T(B.horsBudget)}</p>
+    </div></section>`;
+  }
+  function pageInfos() {
+    const coche = memo.lire("check", {});
+    const checks = B.checklist.map((c, i) => `<li><label><input type="checkbox" data-check="${i}" ${coche[i] ? "checked" : ""}><span>${T(c)}</span></label></li>`).join("");
+    const infos = B.infos.map((x) => `<dt>${T(x.titre)}</dt><dd>${T(x.texte)}${x.maps ? ` <a href="${voir(x.maps)}" target="_blank" rel="noopener">Voir sur Maps</a>` : ""}</dd>`).join("");
+    const soleil = B.jours.map((j) => `<tr><th scope="row">${T(j.nom)}</th><td>${T("Lever " + fmtH(j.soleil.lever) + ", coucher " + fmtH(j.soleil.coucher))}</td></tr><tr><td></td><td class="meteo">${T(j.meteo)}</td></tr>`).join("");
+    const sources = B.sources.map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${T(s.texte)}</a></li>`).join("");
+    return `<section class="page" id="p-infos" data-page="infos"><div class="colonne">
+      <header class="page-tete"><h2 class="gothique">Infos</h2></header>
+      <h3 class="groupe">Avant de partir</h3>
+      <ul class="coches">${checks}</ul>
+      <h3 class="groupe">Sur place</h3>
+      <dl class="infos">${infos}</dl>
+      <h3 class="groupe">Météo et lumière</h3>
+      <table class="soleil"><tbody>${soleil}</tbody></table>
+      <p class="note">${T(B.meteo.note)} <a href="${esc(B.meteo.lien)}" target="_blank" rel="noopener">Prévisions à jour</a></p>
+      <h3 class="groupe">Sources</h3>
+      <ul class="sources">${sources}</ul>
+    </div></section>`;
+  }
+  $("#contenu").innerHTML = B.jours.map(pageJour).join("") + pageManger() + pageInfos();
+  $("#maj").textContent = typo("Infos vérifiées le " + B.maj + ". Les horaires peuvent bouger : vérifiez sur place.");
+
+  /* ---------- Le bandeau « maintenant » ---------- */
+  function majMaintenant(d) {
+    const iso = isoDe(d), t = d.getHours() * 60 + d.getMinutes();
+    const j = B.jours.find((x) => x.date === iso);
+    const premier = B.jours[0], dernier = B.jours[B.jours.length - 1];
+    const el = $("#maintenant");
+    let html = "";
+    if (!j) {
+      if (iso < premier.date) {
+        const n = Math.round((new Date(premier.date + "T00:00:00") - new Date(iso + "T00:00:00")) / 864e5);
+        const coche = memo.lire("check", {});
+        const reste = B.checklist.filter((c, i) => !coche[i]).length;
+        html = `<p class="mt-quand">${n === 1 ? "Départ demain" : typo("Départ dans " + n + " jours")}</p>
+          <p class="mt-titre"><span class="mt-heure">${fmtH(premier.etapes[0].h)}</span> ${T(premier.etapes[0].titre)}</p>
+          <p class="mt-ligne">${reste ? typo("Avant de partir : " + reste + (reste > 1 ? " choses à faire" : " chose à faire") + ", dont les réservations.") : "Tout est prêt."}</p>
+          <a href="#infos">Voir la liste</a>`;
+      } else {
+        html = `<p class="mt-quand">Le week-end est passé</p><p class="mt-ligne">${T("Le programme reste ici, avec les adresses et les histoires.")}</p>`;
+      }
+    } else {
+      const i = etapeEnCours(j, d), deb = debuts(j);
+      const cur = i >= 0 ? j.etapes[i] : null;
+      const suiv = j.etapes[i + 1] || null;
+      const fin = j === dernier && cur && i === j.etapes.length - 1 && t > deb[i] + 75;
+      if (fin) {
+        html = `<p class="mt-quand">Fin du programme</p><p class="mt-titre">Bon retour</p><p class="mt-ligne">${T("Le programme reste ici, avec les adresses et les histoires.")}</p>`;
+      } else {
+        const lab = (e) => e.h ? fmtH(e.h) : "";
+        html = cur
+          ? `<p class="mt-quand">En ce moment</p><p class="mt-titre"><span class="mt-heure">${lab(cur)}</span> ${T(cur.titre)}</p>`
+          : `<p class="mt-quand">Aujourd'hui</p><p class="mt-titre"><span class="mt-heure">${lab(suiv)}</span> ${T(suiv.titre)}</p>`;
+        if (cur && suiv) {
+          const ds = minutes(suiv.h);
+          const dans = ds !== null && ds > t && ds - t <= 180 ? ", dans " + fmtDuree(ds - t) : "";
+          html += `<p class="mt-ligne">${T("Ensuite" + (suiv.h ? " à " + fmtH(suiv.h) : "") + " : " + suiv.titre + dans + ".")}</p>`;
+        }
+        const s = j.soleil && minutes(j.soleil.coucher);
+        if (s && t < s && t >= s - 300) html += `<p class="mt-soleil">${T("Coucher du soleil à " + fmtH(j.soleil.coucher) + ", dans " + fmtDuree(s - t) + ".")}</p>`;
+        const cible = cur ? i : i + 1;
+        html += `<a href="#${j.id}-${cible}">Voir l’étape</a>`;
+      }
+    }
+    el.innerHTML = html;
+    $$(".etape").forEach((li) => { li.classList.remove("en-cours"); const s = $(".ici", li); if (s) s.hidden = true; });
+    if (j) {
+      const i = etapeEnCours(j, d);
+      const li = i >= 0 && document.getElementById(j.id + "-" + i);
+      if (li) { li.classList.add("en-cours"); $(".ici", li).hidden = false; }
+    }
+  }
+
+  /* ---------- Onglets ---------- */
+  const PAGES = ["samedi", "dimanche", "manger", "infos"];
+  function afficher(defiler) {
+    let h = (location.hash || "").slice(1), cible = null;
+    const m = h.match(/^(samedi|dimanche)-(\d+)$/);
+    if (m) { cible = h; h = m[1]; }
+    if (!PAGES.includes(h)) { const j = B.jours.find((x) => x.date === isoDe(maintenantDate())); h = j ? j.id : "samedi"; }
+    $$(".page").forEach((p) => { p.hidden = p.dataset.page !== h; });
+    $$("#onglets a").forEach((a) => { if (a.dataset.page === h) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+    if (cible) { const c = document.getElementById(cible); if (c) setTimeout(() => c.scrollIntoView({ block: "start" }), 30); }
+    else if (defiler) { const nav = $("#onglets"); if (window.scrollY > nav.offsetTop) window.scrollTo(0, nav.offsetTop); }
+  }
+  window.addEventListener("hashchange", () => afficher(true));
+
+  /* ---------- Check-list ---------- */
+  document.addEventListener("change", (e) => {
+    const c = e.target.closest("[data-check]"); if (!c) return;
+    const coche = memo.lire("check", {}); coche[c.dataset.check] = c.checked; memo.ecrire("check", coche);
+    majMaintenant(maintenantDate());
+  });
+
+  /* ---------- Écouter une histoire (voix française du téléphone) ---------- */
+  const synth = window.speechSynthesis;
+  let enLecture = null;
+  function arreter() {
+    if (synth) synth.cancel();
+    if (enLecture) { $("span", enLecture).textContent = "Écouter"; enLecture.setAttribute("aria-pressed", "false"); }
+    enLecture = null;
+  }
+  function voixFr() {
+    const v = synth.getVoices().filter((x) => /^fr/i.test(x.lang));
+    return v.find((x) => /fr[-_](BE|FR)/i.test(x.lang) && /google|natural|premium|enhanced|amélie|thomas|audrey/i.test(x.name)) || v.find((x) => /fr[-_]BE/i.test(x.lang)) || v[0] || null;
+  }
+  if (synth && "SpeechSynthesisUtterance" in window) {
+    $$(".ecouter").forEach((b) => { b.hidden = false; b.setAttribute("aria-pressed", "false"); });
+    synth.getVoices();
+    document.addEventListener("click", (e) => {
+      const b = e.target.closest(".ecouter"); if (!b) return;
+      if (enLecture === b) { arreter(); return; }
+      arreter();
+      const phrases = b.dataset.texte.match(/[^.!?…]+[.!?…»]*\s*/g) || [b.dataset.texte];
+      const v = voixFr();
+      phrases.forEach((p, k) => {
+        const u = new SpeechSynthesisUtterance(p.trim());
+        u.lang = v ? v.lang : "fr-FR"; if (v) u.voice = v; u.rate = 1;
+        if (k === phrases.length - 1) u.onend = () => { if (enLecture === b) arreter(); };
+        synth.speak(u);
+      });
+      enLecture = b; $("span", b).textContent = "Arrêter"; b.setAttribute("aria-pressed", "true");
+    });
+  }
+
+  /* ---------- Démarrage ---------- */
+  afficher(false);
+  majMaintenant(maintenantDate());
+  requestAnimationFrame(() => requestAnimationFrame(() => majCiel(maintenantDate())));
+  setInterval(() => { const d = maintenantDate(); if (new URLSearchParams(location.search).get("t")) return; majCiel(d); majMaintenant(d); }, 30000);
+
+  if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
+})();
+</script>
+</body>
+</html>
