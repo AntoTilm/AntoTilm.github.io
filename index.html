@@ -40,6 +40,8 @@
   .site p { margin: 0; color: var(--doux); font-size: 14.5px; }
   .fleche { color: var(--accent); font-size: 20px; transition: transform .15s; }
   a.site:hover .fleche { transform: translateX(3px); }
+  .titre-section { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--doux); font-weight: 500; margin: 0 0 12px; }
+  section + section { margin-top: 36px; }
   .historique { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--trait); }
   .historique h3 { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--doux); font-weight: 500; margin: 0 0 10px; }
   .historique ul { gap: 4px; }
@@ -63,38 +65,101 @@
     <p>Tout au même endroit.</p>
   </header>
 
-  <!-- Pour ajouter un site : copier un bloc <li> et changer le lien, l'icône, le titre et la description. -->
-  <ul>
-    <li><a class="site" href="/criel/">
-      <span class="icone" aria-hidden="true">🌊</span>
-      <span><h2>Criel-sur-Mer · 22–28 novembre</h2><p>Notre semaine en Normandie : balades, marées, repas et valise.</p></span>
-      <span class="fleche" aria-hidden="true">→</span>
-    </a></li>
-    <li><a class="site" href="/cuisine/">
-      <span class="icone" aria-hidden="true">🍳</span>
-      <span><h2>Carnet de cuisine</h2><p>Mes recettes, en version simple ou grande cuisine, avec liste de courses.</p></span>
-      <span class="fleche" aria-hidden="true">→</span>
-    </a></li>
-    <li><a class="site" href="/revisions-oenologie/">
-      <span class="icone" aria-hidden="true">🍷</span>
-      <span><h2>Révisions Œnologie</h2><p>Révisions pour l'examen d'œnologie CEFOR, cours 1 à 5.</p></span>
-      <span class="fleche" aria-hidden="true">→</span>
-    </a></li>
-    <li><a class="site" href="/campagne-isidoro/">
-      <span class="icone" aria-hidden="true">📜</span>
-      <span><h2>Le Registre d'Isidoro</h2><p>Campagne D&amp;D 3.5 : séances, journal, personnages, lieux et règles.</p></span>
-      <span class="fleche" aria-hidden="true">→</span>
-    </a></li>
-  </ul>
+  <!-- Pour ajouter un site : copier un bloc <li> et changer le lien, l'icône, le titre et la description.
+       Voyages : mettre la date de fin dans data-fin ; une fois passée, le voyage descend tout seul dans « Historique ».
+       Un site publié sur GitHub mais oublié ici apparaît quand même, en bas, dans « Autres sites ». -->
+
+  <section id="bloc-voyages">
+    <h3 class="titre-section">Voyages</h3>
+    <ul id="voyages">
+      <li data-fin="2026-11-28" data-historique="🌊 Criel-sur-Mer · novembre 2026"><a class="site" href="/criel/">
+        <span class="icone" aria-hidden="true">🌊</span>
+        <span><h2>Criel-sur-Mer · 22–28 novembre</h2><p>Notre semaine en Normandie : programme, repas, courses, valise, balades et restos.</p></span>
+        <span class="fleche" aria-hidden="true">→</span>
+      </a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h3 class="titre-section">Mes sites</h3>
+    <ul>
+      <li><a class="site" href="/cuisine/">
+        <span class="icone" aria-hidden="true">🍳</span>
+        <span><h2>Carnet de cuisine</h2><p>Mes recettes, en version simple ou grande cuisine, avec liste de courses.</p></span>
+        <span class="fleche" aria-hidden="true">→</span>
+      </a></li>
+      <li><a class="site" href="/revisions-oenologie/">
+        <span class="icone" aria-hidden="true">🍷</span>
+        <span><h2>Révisions Œnologie</h2><p>Révisions pour l'examen d'œnologie CEFOR, cours 1 à 5.</p></span>
+        <span class="fleche" aria-hidden="true">→</span>
+      </a></li>
+      <li><a class="site" href="/campagne-isidoro/">
+        <span class="icone" aria-hidden="true">📜</span>
+        <span><h2>Le Registre d'Isidoro</h2><p>Campagne D&amp;D 3.5 : séances, journal, personnages, lieux et règles.</p></span>
+        <span class="fleche" aria-hidden="true">→</span>
+      </a></li>
+    </ul>
+  </section>
+
+  <section id="bloc-autres" hidden>
+    <h3 class="titre-section">Autres sites</h3>
+    <ul id="autres"></ul>
+  </section>
 
   <section class="historique">
     <h3>Historique</h3>
-    <ul>
+    <ul id="historique">
+      <li><a class="passe" href="/bruges/"><span aria-hidden="true">🇧🇪</span> Bruges · novembre 2026 <span class="date">voyage passé</span></a></li>
       <li><a class="passe" href="/florence/"><span aria-hidden="true">🇮🇹</span> Florence · octobre 2026 <span class="date">voyage passé</span></a></li>
     </ul>
   </section>
 
   <footer>antotilm.github.io</footer>
 </main>
+<script>
+/* 1. Les voyages terminés descendent dans l'historique. */
+(function () {
+  var d = new Date();
+  var auj = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  var hist = document.getElementById("historique");
+  document.querySelectorAll("#voyages li[data-fin]").forEach(function (li) {
+    if (li.dataset.fin >= auj) return;
+    var a = li.querySelector("a");
+    var n = document.createElement("li");
+    var lien = document.createElement("a");
+    lien.className = "passe"; lien.href = a.getAttribute("href");
+    lien.innerHTML = li.dataset.historique + ' <span class="date">voyage passé</span>';
+    n.appendChild(lien); hist.insertBefore(n, hist.firstChild); li.remove();
+  });
+  if (!document.querySelector("#voyages li")) document.getElementById("bloc-voyages").hidden = true;
+})();
+
+/* 2. Les sites publiés sur GitHub Pages mais absents de cette page s'ajoutent tout seuls. */
+(function () {
+  var connus = {};
+  document.querySelectorAll("main a[href^='/']").forEach(function (a) { connus[a.getAttribute("href").split("/")[1].toLowerCase()] = true; });
+  function montrer(depots) {
+    var ul = document.getElementById("autres"), n = 0;
+    depots.forEach(function (r) {
+      var nom = r.name.toLowerCase();
+      if (!r.has_pages || nom === "antotilm.github.io" || connus[nom]) return;
+      var li = document.createElement("li");
+      li.innerHTML = '<a class="site" href="/' + encodeURIComponent(r.name) + '/"><span class="icone" aria-hidden="true">🌐</span><span><h2></h2><p></p></span><span class="fleche" aria-hidden="true">→</span></a>';
+      li.querySelector("h2").textContent = r.name;
+      li.querySelector("p").textContent = r.description || "Ajouté automatiquement : pense à lui donner une vraie place ici.";
+      ul.appendChild(li); n++;
+    });
+    if (n) document.getElementById("bloc-autres").hidden = false;
+  }
+  try {
+    var cache = JSON.parse(sessionStorage.getItem("depots") || "null");
+    if (cache) { montrer(cache); return; }
+  } catch (e) {}
+  fetch("https://api.github.com/users/AntoTilm/repos?per_page=100")
+    .then(function (r) { return r.ok ? r.json() : []; })
+    .then(function (d) { try { sessionStorage.setItem("depots", JSON.stringify(d)); } catch (e) {} montrer(d); })
+    .catch(function () {});
+})();
+</script>
 </body>
 </html>
